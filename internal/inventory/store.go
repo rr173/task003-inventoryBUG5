@@ -94,6 +94,18 @@ func statusOf(p *Product) string {
 // view 返回商品的只读副本，并派生状态与低库存标记。
 func (p *Product) view() *Product {
 	c := *p
+	if c.LastInAt != nil {
+		t := *c.LastInAt
+		c.LastInAt = &t
+	}
+	if c.LastOutAt != nil {
+		t := *c.LastOutAt
+		c.LastOutAt = &t
+	}
+	if c.DiscontinuedAt != nil {
+		t := *c.DiscontinuedAt
+		c.DiscontinuedAt = &t
+	}
 	c.LowStock = lowStockOf(&c)
 	c.Status = statusOf(&c)
 	return &c
